@@ -1,0 +1,11 @@
+nb-configuration.xml
+.nb-gradle*
+build
+target
+.gradle
+nbproject
+.classpath
+.project
+.settings
+.idea/
+*.iml

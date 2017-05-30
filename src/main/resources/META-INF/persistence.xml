@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
+             http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    <persistence-unit name="my-pu" transaction-type="JTA">
+        <jta-data-source>java:/datasources/myDS</jta-data-source>
+        <properties>
+        <property name="hibernate.show_sql" value="true" />
+        </properties>
+	<jar-file>lib/cors-filter-2.1.jar</jar-file>
+	<jar-file>lib/slf4j-api-1.7.21.jar</jar-file>
+	<jar-file>lib/logback-classic-1.1.7.jar</jar-file>
+    </persistence-unit>
+</persistence>

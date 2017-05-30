@@ -1,0 +1,46 @@
+apply plugin: 'war'
+apply plugin: 'maven'
+group = 'com.ss.pg'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    compile group: 'com.thetransactioncompany', name: 'cors-filter', version:'2.1'
+    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.21'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version:'1.1.7'
+    
+}
+
+task px {
+doLast {
+    def File header = new File("src/main/resources/META-INF/persistence.header")
+    def File target = new File("src/main/resources/META-INF/persistence.xml")
+    def File footer = new File("src/main/resources/META-INF/persistence.footer")
+    target.text = header.getText()
+        configurations.runtime.resolvedConfiguration.getFirstLevelModuleDependencies().each { 
+            target << ("\t<jar-file>lib/" + it.getModuleName() + "-" 
+                + it.getModule().getId().getVersion() + ".jar</jar-file>\n")
+        }
+    target << footer.getText()
+}
+}
+
+task allpx {
+doLast {
+    def File header = new File("src/main/resources/META-INF/persistence.header")
+    def File target = new File("src/main/resources/META-INF/persistence.xml")
+    def File footer = new File("src/main/resources/META-INF/persistence.footer")
+    target.text = header.getText()
+        configurations.runtime.resolvedConfiguration.getResolvedArtifacts().each { 
+            target << ("\t<jar-file>lib/" + it.getName() + "-" 
+                + it.getModuleVersion().getId().getVersion() + ".jar</jar-file>\n")
+        }
+    target << footer.getText()
+}
+}
+
+processResources.dependsOn px
